@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Form</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Add a New Team Member</h1>
+      <form id="form">
+        <div class="form-grid">
+          <!-- Personal Data Section -->
+          <div class="section personal-data">
+            <h2>Personal Data</h2>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="role">Role:</label>
+            <input type="text" id="role" name="role" required />
+
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" required></textarea>
+          </div>
+
+          <!-- Social Links Section -->
+          <div class="section social-links">
+            <h2>Social Links</h2>
+            <label for="github">GitHub:</label>
+            <input
+              type="text"
+              id="github"
+              name="socialLinks[github]"
+              required
+            />
+
+            <label for="linkedin">LinkedIn:</label>
+            <input
+              type="text"
+              id="linkedin"
+              name="socialLinks[linkedin]"
+              required
+            />
+
+            <label for="twitter">Twitter:</label>
+            <input
+              type="text"
+              id="twitter"
+              name="socialLinks[twitter]"
+              required
+            />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="socialLinks[email]" required />
+
+            <label for="portfolio">Portfolio:</label>
+            <input
+              type="text"
+              id="portfolio"
+              name="socialLinks[portfolio]"
+              required
+            />
+          </div>
+
+          <!-- Other Data Section -->
+          <div class="section other-data">
+            <h2>Other Data</h2>
+            <label for="imgUrl">Profile Image:</label>
+            <input type="file" id="imgUrl" name="imgUrl" required />
+
+            <label for="skills">Skills (comma-separated):</label>
+            <input type="text" id="skills" name="skills" required />
+
+            <label for="performanceRating">Performance Rating (1 to 5):</label>
+            <input
+              type="number"
+              id="performanceRating"
+              name="performanceRating"
+              min="1"
+              max="5"
+              required
+            />
+
+            <button type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevents the default form submission
+
+          // Create a new FormData object
+          const formData = new FormData(this);
+
+          // Debug: Log the contents of the FormData
+          for (const [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+          }
+
+          // Send the form data to the server
+          fetch("/team", {
+            method: "POST",
+            body: formData, // The form data with the file
+          })
+            .then((response) => response.json()) // Assuming the server responds with JSON
+            .then((data) => {
+              console.log("Success:", data);
+              alert("Team member added successfully!");
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert(
+                "There was an error submitting the form. Please try again."
+              );
+            });
+        });
+    </script>
+  </body>
+</html>
