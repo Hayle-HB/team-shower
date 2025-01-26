@@ -60,8 +60,6 @@ const getTeamById = async (req, res) => {
 };
 
 const createTeamData = async (req, res) => {
-  console.log(req);
-
   try {
     let imgUrl = null;
 

@@ -1,10 +1,12 @@
 require("dotenv").config();
 require("./config/MongoDB.js");
 require("./config/Cloudinary.js");
+const cors = require('cors')
 
 const express = require("express");
 const multer = require("multer");
 const app = express();
+app.use(cors());
 const teamRoutes = require("./route/team.routes.js");
 
 const PORT = process.env.PORT || 3000;
