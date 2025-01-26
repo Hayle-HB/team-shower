@@ -1,9 +1,44 @@
 const Team = require("../model/Team.js");
 const ImageUploader = require("../utils/ImageUploader.js");
 
+const filterDeveloperData = async (special_id) => {
+  const developerData = await Team.find({});
+
+  const leadersData = developerData.filter((developer) => {
+    return developer.role.toLowerCase() === "leader";
+  });
+
+  developerData.sort((a, b) => {
+    return b.performanceRating - a.performanceRating;
+  });
+
+  const bestPerformers = developerData.slice(0, 3);
+
+  const otherTeams = developerData.filter((developer) => {
+    return developer.role.toLowerCase() !== "leader";
+  });
+  var developer_job = null;
+  if (special_id !== false) {
+    developer_job = developerData.filter((developer) => {
+      return developer.socialLinks.email === special_id;
+    });
+  }
+  if (developer_job) {
+    bestPerformers.push(developer_job[0]);
+  }
+
+  const finalData = {
+    leaders: leadersData,
+    bestPerformers: bestPerformers,
+    otherTeams: otherTeams,
+  };
+
+  return finalData;
+};
+
 const getAllTeams = async (req, res) => {
   try {
-    const teams = await Team.find();
+    const teams = await filterDeveloperData(false);
     res.status(200).json(teams);
   } catch (error) {
     console.error("Error fetching teams:", error);
@@ -13,7 +48,7 @@ const getAllTeams = async (req, res) => {
 
 const getTeamById = async (req, res) => {
   try {
-    const team = await Team.findById(req.params.id);
+    const team = await filterDeveloperData(req.params.id);
     if (!team) {
       return res.status(404).json({ message: "Team member not found" });
     }
@@ -26,7 +61,7 @@ const getTeamById = async (req, res) => {
 
 const createTeamData = async (req, res) => {
   console.log(req);
-  
+
   try {
     let imgUrl = null;
 
