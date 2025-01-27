@@ -8,6 +8,11 @@
   </head>
   <body>
     <div class="container">
+      <div class="loaderContainer">
+        <span class="loader"></span>
+        <span class="loader-bar"></span>
+      </div>
+
       <h1>Add a New Team Member</h1>
       <form id="form">
         <div class="form-grid">
@@ -15,62 +20,42 @@
           <div class="section personal-data">
             <h2>Personal Data</h2>
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required />
+            <input type="text" id="name" name="name" />
 
             <label for="role">Role:</label>
-            <input type="text" id="role" name="role" required />
+            <input type="text" id="role" name="role" />
 
             <label for="bio">Bio:</label>
-            <textarea id="bio" name="bio" required></textarea>
+            <textarea id="bio" name="bio"></textarea>
           </div>
 
           <!-- Social Links Section -->
           <div class="section social-links">
             <h2>Social Links</h2>
             <label for="github">GitHub:</label>
-            <input
-              type="text"
-              id="github"
-              name="socialLinks[github]"
-              required
-            />
+            <input type="text" id="github" name="socialLinks[github]" />
 
             <label for="linkedin">LinkedIn:</label>
-            <input
-              type="text"
-              id="linkedin"
-              name="socialLinks[linkedin]"
-              required
-            />
+            <input type="text" id="linkedin" name="socialLinks[linkedin]" />
 
             <label for="twitter">Twitter:</label>
-            <input
-              type="text"
-              id="twitter"
-              name="socialLinks[twitter]"
-              required
-            />
+            <input type="text" id="twitter" name="socialLinks[twitter]" />
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="socialLinks[email]" required />
+            <input type="email" id="email" name="socialLinks[email]" />
 
             <label for="portfolio">Portfolio:</label>
-            <input
-              type="text"
-              id="portfolio"
-              name="socialLinks[portfolio]"
-              required
-            />
+            <input type="text" id="portfolio" name="socialLinks[portfolio]" />
           </div>
 
           <!-- Other Data Section -->
           <div class="section other-data">
             <h2>Other Data</h2>
             <label for="imgUrl">Profile Image:</label>
-            <input type="file" id="imgUrl" name="imgUrl" required />
+            <input type="file" id="imgUrl" name="imgUrl" />
 
             <label for="skills">Skills (comma-separated):</label>
-            <input type="text" id="skills" name="skills" required />
+            <input type="text" id="skills" name="skills" />
 
             <label for="performanceRating">Performance Rating (1 to 5):</label>
             <input
@@ -79,7 +64,6 @@
               name="performanceRating"
               min="1"
               max="5"
-              required
             />
 
             <button type="submit">Submit</button>
@@ -91,23 +75,33 @@
     <script>
       document
         .getElementById("form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault(); // Prevents the default form submission
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
 
-          // Create a new FormData object
-          const formData = new FormData(this);
+          const form = document.getElementById("form");
+          const loaderContainer = document.querySelector(".loaderContainer");
+          const container = document.querySelector(".container");
 
-          // Debug: Log the contents of the FormData
-          for (const [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-          }
+          const showLoader = () => {
+            loaderContainer.style.display = "flex";
+            container.style.opacity = "0.5";
+          };
 
-          // Send the form data to the server
-          fetch("/team", {
+          const hideLoader = () => {
+            loaderContainer.style.display = "none";
+            container.style.opacity = "1";
+          };
+
+          showLoader();
+
+          const formData = new FormData(form);
+
+          await ("/team",
+          {
             method: "POST",
-            body: formData, // The form data with the file
+            body: formData,
           })
-            .then((response) => response.json()) // Assuming the server responds with JSON
+            .then((response) => response.json())
             .then((data) => {
               console.log("Success:", data);
               alert("Team member added successfully!");
@@ -117,8 +111,13 @@
               alert(
                 "There was an error submitting the form. Please try again."
               );
+            })
+            .finally(() => {
+              hideLoader();
             });
         });
+
+      document.querySelector(".loaderContainer").style.display = "none";
     </script>
   </body>
 </html>
