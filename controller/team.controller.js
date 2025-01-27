@@ -12,7 +12,7 @@ const filterDeveloperData = async (special_id) => {
     return b.performanceRating - a.performanceRating;
   });
 
-  const bestPerformers = developerData.slice(0, 3);
+  const bestPerformers = developerData.slice(0, 9);
 
   const otherTeams = developerData.filter((developer) => {
     return developer.role.toLowerCase() !== "leader";
