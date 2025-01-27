@@ -20,10 +20,10 @@
           <div class="section personal-data">
             <h2>Personal Data</h2>
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" />
+            <input required type="text" id="name" name="name" />
 
             <label for="role">Role:</label>
-            <input type="text" id="role" name="role" />
+            <input required type="text" id="role" name="role" />
 
             <label for="bio">Bio:</label>
             <textarea id="bio" name="bio"></textarea>
@@ -33,37 +33,58 @@
           <div class="section social-links">
             <h2>Social Links</h2>
             <label for="github">GitHub:</label>
-            <input type="text" id="github" name="socialLinks[github]" />
+            <input
+              required
+              type="text"
+              id="github"
+              name="socialLinks[github]"
+            />
 
             <label for="linkedin">LinkedIn:</label>
-            <input type="text" id="linkedin" name="socialLinks[linkedin]" />
+            <input
+              required
+              type="text"
+              id="linkedin"
+              name="socialLinks[linkedin]"
+            />
 
             <label for="twitter">Twitter:</label>
-            <input type="text" id="twitter" name="socialLinks[twitter]" />
+            <input
+              required
+              type="text"
+              id="twitter"
+              name="socialLinks[twitter]"
+            />
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="socialLinks[email]" />
+            <input required type="email" id="email" name="socialLinks[email]" />
 
             <label for="portfolio">Portfolio:</label>
-            <input type="text" id="portfolio" name="socialLinks[portfolio]" />
+            <input
+              required
+              type="text"
+              id="portfolio"
+              name="socialLinks[portfolio]"
+            />
           </div>
 
           <!-- Other Data Section -->
           <div class="section other-data">
             <h2>Other Data</h2>
             <label for="imgUrl">Profile Image:</label>
-            <input type="file" id="imgUrl" name="imgUrl" />
+            <input required type="file" id="imgUrl" name="imgUrl" />
 
             <label for="skills">Skills (comma-separated):</label>
-            <input type="text" id="skills" name="skills" />
+            <input required type="text" id="skills" name="skills" />
 
             <label for="performanceRating">Performance Rating (1 to 5):</label>
             <input
+              required
               type="number"
               id="performanceRating"
               name="performanceRating"
               min="1"
-              max="5"
+              max="10"
             />
 
             <button type="submit">Submit</button>
